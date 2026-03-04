@@ -1,0 +1,40 @@
+import './App.css'
+import Hero from './components/main/Hero'
+import PresentationSection from './components/main/PresentationSection'
+
+import Projects from "./components/pages/projects_f/Projects";
+import Services from "./components/pages/services_f/Services";
+import AboutUs from "./components/pages/aboutus_f/AboutUs";
+import ContactUs from "./components/pages/contactus_f/ContactUs";
+import MainLayout from './components/MainLayout'
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
+function App() {
+  
+
+  return (
+    <>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={
+            <>
+              <Hero/>
+              <PresentationSection/>
+            </>
+            } />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/contactus" element={<ContactUs />} />
+        </Route>  
+      </Routes>
+      
+      
+    </BrowserRouter>    
+    </>
+  )
+}
+
+export default App
