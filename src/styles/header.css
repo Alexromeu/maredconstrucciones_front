@@ -8,11 +8,18 @@
   flex-direction: column; /* logo on top, menu below */
   align-items: center;
   justify-content: center;
+
+}
+
+.header-spacer {
+    position: relative;
+    height: 180px;
+    z-index: -1;
 }
 
 /* Logo */
 .logo-header {
-  width: 140px;        /* adjust as needed */
+  width: 90px;        /* adjust as needed */
   height: auto;
   margin-bottom: 20px; /* spacing between logo and menu */
 }
@@ -39,7 +46,8 @@
 }
 
 .header-menu-btn:hover {
-  color: #f0c14b; /* construction-style accent */
+  cursor: pointer;
+  color: #f0c14b; 
 }
 
 /* Responsive */

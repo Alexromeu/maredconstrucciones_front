@@ -5,17 +5,18 @@
   
   --main-blue-color: #2d717d;
   --main-yellow-color: #605639;
-  --background-header: #F3F4F4;
+  --background-header: #ecefef;
+  
   color-scheme: light dark;
-  color: black;
-  background-color: #F3F4F4;
+  color: rgb(44, 39, 39);
+  background-color: #ecefef;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  margin-top: 50px;
+ 
 }
 
 a {
@@ -31,8 +32,7 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+ 
 }
 
 h1 {

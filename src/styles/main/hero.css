@@ -1,0 +1,16 @@
+.header-spacer {
+    position: relative;
+    height: 180px;
+}
+
+.hero-container {
+   margin: 0 auto 50px auto;
+   justify-content: center;
+   align-items: center;
+   display: flex;
+   flex-direction: column;
+}
+
+.hero-btn {
+    width: 150px;
+}

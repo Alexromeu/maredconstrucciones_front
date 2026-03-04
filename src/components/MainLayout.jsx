@@ -8,7 +8,7 @@ export default function MainLayout() {
   return (
     <>
       <Header />
-
+      <div className='header-spacer'></div>
       <Outlet />  
 
       <ContactInfo />
