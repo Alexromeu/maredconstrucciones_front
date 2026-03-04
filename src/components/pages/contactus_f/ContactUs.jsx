@@ -29,6 +29,8 @@ export default function ContactForm() {
   };
 
   return (
+    <>
+    <h1 className="contact-title">Contactanos</h1>
     <form className="contact-form" onSubmit={handleSubmit}>
       <input 
         type="text" 
@@ -58,5 +60,6 @@ export default function ContactForm() {
 
       <button type="submit">Enviar</button>
     </form>
+    </>
   );
 }
