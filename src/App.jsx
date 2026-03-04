@@ -5,7 +5,7 @@ import PresentationSection from './components/main/PresentationSection'
 import Projects from "./components/pages/projects_f/Projects";
 import Services from "./components/pages/services_f/Services";
 import AboutUs from "./components/pages/aboutus_f/AboutUs";
-import ContactUs from "./components/pages/contactus_f/ContactUs";
+import ContactForm from "./components/pages/contactus_f/ContactUs";
 import MainLayout from './components/MainLayout'
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
@@ -27,7 +27,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/services" element={<Services />} />
           <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/contactus" element={<ContactForm />} />
         </Route>  
       </Routes>
       
