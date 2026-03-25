@@ -1,0 +1,40 @@
+/api/customers
+  GET /
+  GET /:id
+  POST /
+  PATCH /:id
+  DELETE /:id
+
+/api/services
+  GET /
+  GET /:id
+  POST /
+  PATCH /:id
+  DELETE /:id
+
+/api/quotes
+  GET /
+  GET /:id
+  POST /
+  PATCH /:id
+  DELETE /:id
+
+/api/quotes/:quoteId/offered-services
+  GET /
+  POST /
+
+/api/offered-services/:id
+  PATCH /
+  DELETE /
+
+/api/auth
+  POST /login
+  POST /logout
+  GET /me
+
+/api/projects
+  GET /
+  GET /:id
+  POST /
+  PATCH /:id
+  DELETE /:id
