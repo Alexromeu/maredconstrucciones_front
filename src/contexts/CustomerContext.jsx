@@ -1,4 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
+import convert_url from "../utiles/url_convert";
+
 
 export const CustomerContext = createContext();
 
@@ -6,24 +8,25 @@ export function CustomerProvider({ children }) {
   const [customers, setCustomers] = useState([]);
 
   async function fetchCustomers() {
-    const res = await fetch("/api/customers");
+    const res = await fetch(convert_url("/api/customers"));
     const data = await res.json();
     setCustomers(data);
   }
 
   async function createCustomer(payload) {
-    const res = await fetch("/api/customers", {
+    const res = await fetch(convert_url("/api/customers"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
     const newCustomer = await res.json();
+
     setCustomers(prev => [...prev, newCustomer]);
     return newCustomer;
   }
 
   async function updateCustomer(id, payload) {
-    const res = await fetch(`/api/customers/${id}`, {
+    const res = await fetch(convert_url(`/api/customers/${id}`), {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -51,4 +54,9 @@ export function CustomerProvider({ children }) {
       {children}
     </CustomerContext.Provider>
   );
+}
+
+
+export function useCustomer() {
+  return useContext(CustomerContext);
 }

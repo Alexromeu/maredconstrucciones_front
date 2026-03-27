@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import convert_url from "../utiles/url_convert";
 
 export const QuoteContext = createContext();
 
@@ -6,13 +7,13 @@ export function QuoteProvider({ children }) {
   const [quotes, setQuotes] = useState([]);
 
   async function fetchQuotes() {
-    const res = await fetch("/api/quotes");
+    const res = await fetch(convert_url("/api/quotes"));
     const data = await res.json();
     setQuotes(data);
   }
 
   async function createQuote(payload) {
-    const res = await fetch("/api/quotes", {
+    const res = await fetch(convert_url("/api/quotes"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -23,7 +24,7 @@ export function QuoteProvider({ children }) {
   }
 
   async function updateQuote(id, payload) {
-    const res = await fetch(`/api/quotes/${id}`, {
+    const res = await fetch(convert_url(`/api/quotes/${id}`), {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -34,7 +35,7 @@ export function QuoteProvider({ children }) {
   }
 
   async function deleteQuote(id) {
-    await fetch(`/api/quotes/${id}`, { method: "DELETE" });
+    await fetch(convert_url(`/api/quotes/${id}`), { method: "DELETE" });
     setQuotes(prev => prev.filter(q => q.id !== id));
   }
 
@@ -49,4 +50,10 @@ export function QuoteProvider({ children }) {
       {children}
     </QuoteContext.Provider>
   );
+}
+
+import { useContext } from "react";
+
+export function useQuote() {
+  return useContext(QuoteContext);
 }

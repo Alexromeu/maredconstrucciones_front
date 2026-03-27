@@ -5,7 +5,7 @@
   
   --main-blue-color: #2d717d;
   --main-yellow-color: #605639;
-  --background-header: #ecefef;
+  --background-header: #aed0d0;
   
   color-scheme: light dark;
   color: rgb(44, 39, 39);
@@ -19,6 +19,12 @@
  
 }
 
+#root {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -30,6 +36,7 @@ a:hover {
 
 body {
   margin: 0;
+  padding-top: 150px; 
   display: flex;
   place-items: center;
  
@@ -39,6 +46,7 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+
 
 button {
   border-radius: 8px;

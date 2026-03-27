@@ -1,12 +1,13 @@
 
-
 .hero-container {
    margin: 0 auto 50px auto;
    justify-content: center;
    align-items: center;
    display: flex;
    flex-direction: column;
+   z-index: 0;
 }
+
 
 .hero-btn {
     width: 150px;

@@ -32,9 +32,4 @@
   POST /logout
   GET /me
 
-/api/projects
-  GET /
-  GET /:id
-  POST /
-  PATCH /:id
-  DELETE /:id
+
