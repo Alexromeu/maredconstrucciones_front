@@ -1,0 +1,66 @@
+.admin-create-service {
+  max-width: 650px;
+  margin: 3rem auto;
+  padding: 2rem;
+}
+
+.admin-create-service h2 {
+  text-align: center;
+  font-size: 1.9rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.create-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  gap: 0.5rem;
+}
+
+.create-form input,
+.create-form textarea {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.create-form input:focus,
+.create-form textarea:focus {
+  border-color: #0077ff;
+  outline: none;
+}
+
+.checkbox-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.create-btn {
+  margin-top: 1rem;
+  padding: 0.9rem;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.create-btn:hover {
+  background: #1e8c39;
+}
+
+.create-btn:active {
+  transform: scale(0.98);
+}

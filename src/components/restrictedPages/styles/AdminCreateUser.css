@@ -1,0 +1,60 @@
+.admin-create-user {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+}
+
+.admin-create-user h2 {
+  text-align: center;
+  font-size: 1.9rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.user-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  gap: 0.5rem;
+}
+
+.user-form input,
+.user-form select {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.user-form input:focus,
+.user-form select:focus {
+  border-color: #0077ff;
+  outline: none;
+}
+
+.create-user-btn {
+  margin-top: 1rem;
+  padding: 0.9rem;
+  background: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.create-user-btn:hover {
+  background: #005fcc;
+}
+
+.create-user-btn:active {
+  transform: scale(0.98);
+}
