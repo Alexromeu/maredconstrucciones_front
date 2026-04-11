@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 
 export default function ServiceCard({ service }) {
     const [expanded, setExpanded] = useState(false);
@@ -7,20 +7,30 @@ export default function ServiceCard({ service }) {
         if (!expanded) return;
 
         const timer = setTimeout(() => {
-        setExpanded(false);
+            setExpanded(false);
         }, 5000);
 
         return () => clearTimeout(timer);
     }, [expanded]);
 
     return (
-        <div 
-        className="service-card" 
-        onClick={() => setExpanded(true)}
+        <div
+            className="service-card"
+            onClick={() => setExpanded(prev => !prev)}
         >
-        <img src={service.image_url} alt={service.title} className="service-image" />
-        <h3>{service.title}</h3>
-        <p className={`service-descrption ${expanded ? "expanded" : ""}`}>{service.description}</p>
+            {service.image_url ? (
+                <img src={service.image_url} alt={service.name} className="service-image" />
+            ) : (
+                <div className="service-image-placeholder" />
+            )}
+            <h3>{service.name}</h3>
+            <p className="service-price">
+                From <strong>${Number(service.base_price).toLocaleString()}</strong>
+                {service.unit && <span className="service-unit"> / {service.unit}</span>}
+            </p>
+            <p className={`service-description ${expanded ? "expanded" : ""}`}>
+                {service.description}
+            </p>
         </div>
     );
 }

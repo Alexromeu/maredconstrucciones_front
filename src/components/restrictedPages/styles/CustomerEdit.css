@@ -1,0 +1,72 @@
+.admin-edit-customer {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  font-family: system-ui, sans-serif;
+}
+
+.admin-edit-customer h2 {
+  margin-bottom: 24px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #222;
+  text-align: center;
+}
+
+.admin-edit-customer form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.admin-edit-customer label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.admin-edit-customer input {
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-edit-customer input:focus {
+  border-color: #0078ff;
+  box-shadow: 0 0 0 3px rgba(0, 120, 255, 0.2);
+  outline: none;
+}
+
+.admin-edit-customer button {
+  margin-top: 10px;
+  padding: 12px;
+  background: #0078ff;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.admin-edit-customer button:hover {
+  background: #006ae0;
+}
+
+.admin-edit-customer button:active {
+  transform: scale(0.98);
+}
+
+.admin-edit-customer button:disabled {
+  background: #9bbcf0;
+  cursor: not-allowed;
+}

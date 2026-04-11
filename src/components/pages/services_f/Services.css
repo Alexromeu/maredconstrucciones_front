@@ -82,16 +82,40 @@
     margin-bottom: 1rem;
 }
 
+.service-image-placeholder {
+    width: 100%;
+    height: 160px;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
+}
+
 /* ====== TITLE ====== */
 .service-card h3 {
     font-size: 1.3rem;
     font-weight: 600;
     color: #222;
+    margin-bottom: 0.4rem;
+}
+
+/* ====== PRICE ====== */
+.service-price {
+    font-size: 0.95rem;
+    color: #555;
     margin-bottom: 0.8rem;
 }
 
+.service-price strong {
+    color: #1a1a1a;
+}
+
+.service-unit {
+    color: #888;
+    font-size: 0.85rem;
+}
+
 /* ====== DESCRIPTION (COLLAPSIBLE) ====== */
-.service-descrption {
+.service-description {
     max-height: 0;
     overflow: hidden;
     color: #555;
@@ -102,7 +126,7 @@
 }
 
 /* Expanded state */
-.service-descrption.expanded {
-    max-height: 300px; /* enough for most descriptions */
+.service-description.expanded {
+    max-height: 300px;
     opacity: 1;
 }

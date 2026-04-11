@@ -13,6 +13,8 @@ import AdminLogin from './components/restrictedPages/AdminLogin';
 import AdminCreateUser from './components/restrictedPages/AdminUserCreation';
 import AdminServiceEditor from './components/restrictedPages/ServicesEdition';
 import AdminCreateService from './components/restrictedPages/CreateService';
+import AdminEditCustomer from './components/restrictedPages/EditCustomer';
+import AdminCustomerList from './components/restrictedPages/CustomerList';
 // import AdminImages from './components/restrictedPages/ManageImages';
 // import AdminLogs from './components/restrictedPages/ViewLogs';
 // import AdminSettings from './components/restrictedPages/Settings';
@@ -51,6 +53,8 @@ function App() {
         <Route path="/admin/services/create" element={<AdminCreateService />} />
         <Route path="/admin/services/edit" element={<AdminServiceEditor />} />
         <Route path="/admin/users/create" element={<AdminCreateUser />} />
+        <Route path="/admin/customers" element={<AdminCustomerList />} />
+        <Route path="/admin/customers/edit/:id" element={<AdminEditCustomer />} />
       </Routes>
       
       
@@ -59,4 +63,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

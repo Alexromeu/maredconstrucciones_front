@@ -8,8 +8,9 @@ export default function AdminHub() {
     { label: "Manage Images", path: "/admin/images" },
     { label: "View Logs", path: "/admin/logs" },
     { label: "Settings", path: "/admin/settings" },
-    { label: "Create User", path: "/admin/users/create" }
-
+    { label: "Create User", path: "/admin/users/create" },
+    { label: "Edit Customer", path: "/admin/customers/edit/:id" },
+    { label: "Customer List", path: "/admin/customers" }
   ];
 
   return (
