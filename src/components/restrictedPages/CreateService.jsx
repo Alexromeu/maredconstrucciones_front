@@ -29,7 +29,8 @@ export default function AdminCreateService() {
     const res = await fetch(convert_url("/api/services"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form)
+      credentials: "include",
+      body: JSON.stringify(form),
     });
 
     if (!res.ok) {

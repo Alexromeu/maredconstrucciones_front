@@ -16,10 +16,10 @@ export default function AdminLogin() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const ok = await login({ email: form.email, password: form.password });
-    if (!ok) return alert("Invalid credentials");
+    const data = await login({ email: form.email, password: form.password });
+    if (!data) return alert("Invalid credentials");
 
-    navigate("/admin");
+    navigate(data.role_id === 3 ? "/my-account" : "/admin");
   }
 
   return (

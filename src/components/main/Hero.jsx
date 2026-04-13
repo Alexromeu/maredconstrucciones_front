@@ -1,5 +1,6 @@
 import "../../styles/main/hero.css";
 
+
 export default function Hero() {
     return <>
         <section className="hero-container">

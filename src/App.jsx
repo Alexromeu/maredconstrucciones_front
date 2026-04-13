@@ -15,6 +15,8 @@ import AdminServiceEditor from './components/restrictedPages/ServicesEdition';
 import AdminCreateService from './components/restrictedPages/CreateService';
 import AdminEditCustomer from './components/restrictedPages/EditCustomer';
 import AdminCustomerList from './components/restrictedPages/CustomerList';
+import CustomerDashboard from './components/pages/account_f/CustomerDashboard';
+import CustomerLogin from './components/pages/account_f/CustomerLogin';
 // import AdminImages from './components/restrictedPages/ManageImages';
 // import AdminLogs from './components/restrictedPages/ViewLogs';
 // import AdminSettings from './components/restrictedPages/Settings';
@@ -37,7 +39,8 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactForm />} />
           <Route path="/account" element={<CreateAccount />} />
-        </Route> 
+          <Route path="/signin" element={<CustomerLogin />} />
+        </Route>
         <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/users/create" element={<AdminCreateUser />} />  
           <Route
@@ -55,6 +58,14 @@ function App() {
         <Route path="/admin/users/create" element={<AdminCreateUser />} />
         <Route path="/admin/customers" element={<AdminCustomerList />} />
         <Route path="/admin/customers/edit/:id" element={<AdminEditCustomer />} />
+        <Route
+          path="/my-account"
+          element={
+            <ProtectedRoute>
+              <CustomerDashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       
       

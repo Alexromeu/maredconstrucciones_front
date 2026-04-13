@@ -54,7 +54,13 @@
 
 .account-btn-holder {
   display: flex;
-  gap: 35px;
+  gap: 20px;
+  align-items: center;
+}
+
+.signin-btn {
+  display: inline-flex;
+  align-items: center;
 }
 
 .account-btn {

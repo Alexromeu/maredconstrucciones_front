@@ -1,17 +1,24 @@
 import { useState } from "react";
 import { useCustomer } from "../../../contexts/CustomerContext";
+import { useAuth } from "../../../contexts/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 import "./CreateAccount.css";
 
 export default function CreateAccount() {
+  const { createCustomer } = useCustomer();
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     name: "",
     lastname: "",
     phone_number: "",
     email: "",
-    address: ""
+    address: "",
+    password: "",
+    confirmPassword: ""
   });
 
-  const customerContext = useCustomer();
   const [status, setStatus] = useState("");
 
   function handleChange(e) {
@@ -20,23 +27,43 @@ export default function CreateAccount() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setStatus("Creating account...");
-console.log("Submitting form:", form);
-    const result = await customerContext.createCustomer(form);
-  
-    if (result.error) {
-      setStatus(result.error);
 
-    } else {
-      setStatus("Account created successfully!");
-      setForm({
-        name: "",
-        lastname: "",
-        phone_number: "",
-        email: "",
-        address: ""
-      });
+    if (form.password !== form.confirmPassword) {
+      setStatus("Passwords do not match.");
+      return;
     }
+
+    setStatus("Creating account...");
+
+    // 1. Create the customer record
+    const customerResult = await createCustomer({
+      name: form.name,
+      lastname: form.lastname,
+      phone_number: form.phone_number,
+      email: form.email,
+      address: form.address
+    });
+
+    if (customerResult?.error) {
+      setStatus(customerResult.error);
+      return;
+    }
+
+    // 2. Create the login entry (users table, role_id 3 = customer)
+    const authResult = await register({
+      name: `${form.name} ${form.lastname}`,
+      email: form.email,
+      password: form.password,
+      role_id: 3
+    });
+
+    if (authResult?.error) {
+      setStatus(`Account info saved, but login setup failed: ${authResult.error}`);
+      return;
+    }
+
+    setStatus("Account created! You can now log in.");
+    setTimeout(() => navigate("/admin/login"), 1500);
   }
 
   return (
@@ -87,10 +114,32 @@ console.log("Submitting form:", form);
           onChange={handleChange}
         />
 
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={form.confirmPassword}
+          onChange={handleChange}
+          required
+        />
+
         <button type="submit">Create Account</button>
       </form>
 
       {status && <p className="status-msg">{status}</p>}
+
+      <p className="auth-swap">
+        Already have an account? <Link to="/signin">Sign in</Link>
+      </p>
     </div>
   );
 }

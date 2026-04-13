@@ -7,42 +7,47 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-      const stored = sessionStorage.getItem("auth");
+      const stored = sessionStorage.getItem("auth_user");
       if (stored) setUser(JSON.parse(stored));
     }, []);
 
-    function saveUser(data) {
-      setUser(data);
-      sessionStorage.setItem("auth", JSON.stringify(data));
-    }
-
-      async function login(credentials) {
+    async function login(credentials) {
       const res = await fetch(convert_url("/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(credentials),
       });
+      
       const data = await res.json();
-      saveUser(data);
+
+      if (!res.ok) return null;
+
+      // data contains id, email, name, role_id — no token (stored in HTTP-only cookie)
+      setUser(data);
+      sessionStorage.setItem("auth_user", JSON.stringify(data));
       return data;
     }
 
-    function logout() {
-    setUser(null);
-    sessionStorage.removeItem("auth");
+    async function logout() {
+      await fetch(convert_url("/auth/logout"), {
+        method: "POST",
+        credentials: "include",
+      });
+      setUser(null);
+      sessionStorage.removeItem("auth_user");
     }
 
-    async function register({ name, email, password }) {
+    async function register({ name, email, password, role_id = 3 }) {
       try {
         const res = await fetch(convert_url("/auth/register"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password })
+          credentials: "include",
+          body: JSON.stringify({ name, email, password, role_id })
         });
-          
+
         const data = await res.json();
-        setUser(data);
-        sessionStorage.setItem("auth", JSON.stringify(data));
 
         if (!res.ok) {
           return { error: data.error || "Registration failed" };

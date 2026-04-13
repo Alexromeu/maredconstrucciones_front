@@ -1,13 +1,25 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
 import convert_url from "../utiles/url_convert";
 
 export const QuoteContext = createContext();
 
 export function QuoteProvider({ children }) {
   const [quotes, setQuotes] = useState([]);
+  const [myQuotes, setMyQuotes] = useState([]);
+
+  async function fetchMyQuotes() {
+    const res = await fetch(convert_url("/api/quotes/my"), {
+      credentials: "include",
+    });
+    const data = await res.json();
+    setMyQuotes(data);
+    return data;
+  }
 
   async function fetchQuotes() {
-    const res = await fetch(convert_url("/api/quotes"));
+    const res = await fetch(convert_url("/api/quotes"), {
+      credentials: "include",
+    });
     const data = await res.json();
     setQuotes(data);
   }
@@ -16,6 +28,7 @@ export function QuoteProvider({ children }) {
     const res = await fetch(convert_url("/api/quotes"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify(payload),
     });
     const newQuote = await res.json();
@@ -27,6 +40,7 @@ export function QuoteProvider({ children }) {
     const res = await fetch(convert_url(`/api/quotes/${id}`), {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify(payload),
     });
     const updated = await res.json();
@@ -35,14 +49,19 @@ export function QuoteProvider({ children }) {
   }
 
   async function deleteQuote(id) {
-    await fetch(convert_url(`/api/quotes/${id}`), { method: "DELETE" });
+    await fetch(convert_url(`/api/quotes/${id}`), {
+      method: "DELETE",
+      credentials: "include",
+    });
     setQuotes(prev => prev.filter(q => q.id !== id));
   }
 
   return (
     <QuoteContext.Provider value={{
       quotes,
+      myQuotes,
       fetchQuotes,
+      fetchMyQuotes,
       createQuote,
       updateQuote,
       deleteQuote
@@ -52,7 +71,7 @@ export function QuoteProvider({ children }) {
   );
 }
 
-import { useContext } from "react";
+
 
 export function useQuote() {
   return useContext(QuoteContext);

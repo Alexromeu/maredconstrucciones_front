@@ -6,7 +6,7 @@
   --main-blue-color: #2d717d;
   --main-yellow-color: #605639;
   --background-header: linear-gradient(180deg,rgba(255, 255, 255, 1) 45%, rgba(255, 255, 255, 0) 100%);
-  
+  --logo-url: "assets/logo1.png";
   color-scheme: light dark;
   color: rgb(44, 39, 39);
   background-color: #ecefef;

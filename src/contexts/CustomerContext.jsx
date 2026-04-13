@@ -7,27 +7,20 @@ export const CustomerContext = createContext();
 export function CustomerProvider({ children }) {
   const [customers, setCustomers] = useState([]);
 
-  const token = sessionStorage.getItem("auth") ? JSON.parse(sessionStorage.getItem("auth")).token : null;
-
   async function fetchCustomers() {
     const res = await fetch(convert_url("/api/customers"), {
-      headers: { 
-        "Content-Type": "application/json", 
-        "Authorization": `Bearer ${token}`
-      }
+      credentials: "include",
     });
 
     const data = await res.json();
-
     setCustomers(data);
   }
 
   async function createCustomer(payload) {
     const res = await fetch(convert_url("/api/customers"), {
       method: "POST",
-      headers: { 
-        "Content-Type": "application/json", 
-      },
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify(payload),
     });
     const newCustomer = await res.json();
@@ -37,14 +30,10 @@ export function CustomerProvider({ children }) {
   }
 
   async function updateCustomer(id, payload) {
-    const token = sessionStorage.getItem("token");
     const res = await fetch(convert_url(`/api/customers/${id}`), {
       method: "PATCH",
-      headers: { 
-        "Content-Type": "application/json", 
-        "Authorization": `Bearer ${token}`  
-      },
-
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify(payload),
     });
 
@@ -54,7 +43,10 @@ export function CustomerProvider({ children }) {
   }
 
   async function deleteCustomer(id) {
-    await fetch(`/api/customers/${id}`, { method: "DELETE" });
+    await fetch(convert_url(`/api/customers/${id}`), {
+      method: "DELETE",
+      credentials: "include",
+    });
     setCustomers(prev => prev.filter(c => c.id !== id));
   }
 
