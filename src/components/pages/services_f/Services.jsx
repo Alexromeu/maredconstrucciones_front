@@ -8,7 +8,7 @@ export default function Services() {
 
     useEffect(() => {
         fetchServices();
-    }, [fetchServices]);
+    }, []);
 
     return (
         <section className="services-page">
