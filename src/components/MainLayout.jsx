@@ -9,7 +9,6 @@ export default function MainLayout() {
     <>
       <Header />
       <Outlet />  
-
       <ContactInfo />
       <Footer />
     </>
