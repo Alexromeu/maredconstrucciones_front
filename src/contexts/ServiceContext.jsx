@@ -10,7 +10,6 @@ export function ServiceProvider({ children }) {
 
   const fetchServices = useCallback(async () => {
     const res = await fetch(convert_url("/api/services"), {
-      credentials: "include",
     });
     const data = await res.json();
     setServices(data);
