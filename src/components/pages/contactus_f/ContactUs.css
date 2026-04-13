@@ -58,6 +58,10 @@
   margin: 10px;
 }
 
+.contact-title {
+  margin-top: 150px;
+}
+
 .contact-form button:hover {
   background: #333;
 }

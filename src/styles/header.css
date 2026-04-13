@@ -4,12 +4,13 @@
   top: 0;
   width: 100%;
   min-height: 100px;
-  background: var(--background-header);
+  background: transparent;
   padding: 0 20px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   z-index: 1000;
+  color: white;
 }
 
 
@@ -50,6 +51,12 @@
   display: flex;
   gap: 35px;
   justify-content: end;
+  color:aliceblue;
+}
+
+.btns-holder > a{
+ 
+  color:aliceblue;
 }
 
 .account-btn-holder {
@@ -61,6 +68,14 @@
 .signin-btn {
   display: inline-flex;
   align-items: center;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
 }
 
 .account-btn {

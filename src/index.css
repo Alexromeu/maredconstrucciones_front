@@ -7,6 +7,7 @@
   --main-yellow-color: #605639;
   --background-header: linear-gradient(180deg,rgba(255, 255, 255, 1) 45%, rgba(255, 255, 255, 0) 100%);
   --logo-url: "assets/logo1.png";
+  --hero-background: url("/hero-background3.jpg");
   color-scheme: light dark;
   color: rgb(44, 39, 39);
   background-color: #ecefef;
@@ -17,6 +18,7 @@
   -moz-osx-font-smoothing: grayscale;
 
 }
+
 
 #root {
   margin: 0;
@@ -35,7 +37,7 @@ a:hover {
 
 body {
   margin: 0;
-  padding-top: 150px; 
+  padding-top:0; 
   display: flex;
   place-items: center;
  

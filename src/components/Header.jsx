@@ -1,12 +1,19 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import logo from "../assets/logo1.png";
 import "../styles/header.css";
 
 export default function Header() {
     const [open, setOpen] = useState(false);
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    async function handleLogout() {
+        await logout();
+        setOpen(false);
+        navigate("/");
+    }
 
     const menuRef = useRef(null);
     const btnRef = useRef(null);
@@ -30,17 +37,13 @@ export default function Header() {
         return () => document.removeEventListener("click", handleClickOutside);
     }, [open]);
 
-    // When logged in, the account icon links to the right dashboard.
-    // When logged out, it goes to the sign-in page.
-    const accountTarget =
-        !user ? "/signin"
-      : user.role_id === 3 ? "/my-account"
-      : "/admin";
+    // Public header is customer-facing only. Admin/staff never expose admin links
+    // in the public UI — that area is reached only by typing the URL.
+    const isCustomer = user?.role_id === 3;
+    const showAccountArea = !user || isCustomer;
 
-    const accountLabel =
-        !user ? "Sign In"
-      : user.role_id === 3 ? "My Account"
-      : "Admin";
+    const accountTarget = isCustomer ? "/my-account" : "/signin";
+    const accountLabel  = isCustomer ? "My Account"  : "Sign In";
 
     return (
         <header className="header-container">
@@ -70,16 +73,21 @@ export default function Header() {
                     <Link to="/contactus" className="header-menu-btn">Contact Us</Link>
                 </div>
                 <div className="account-btn-holder">
-                    {!user && (
-                        <Link to="/signin" className="header-menu-btn signin-btn">
-                            Sign In
-                        </Link>
+                    {user && (
+                        <button
+                            onClick={handleLogout}
+                            className="header-menu-btn signin-btn logout-btn"
+                        >
+                            Logout
+                        </button>
                     )}
-                    <Link
-                        to={accountTarget}
-                        className="header-menu-btn account-btn"
-                        title={accountLabel}
-                    ></Link>
+                    {showAccountArea && (
+                        <Link
+                            to={accountTarget}
+                            className="header-menu-btn account-btn"
+                            title={accountLabel}
+                        ></Link>
+                    )}
                 </div>
             </nav>
 
@@ -91,15 +99,17 @@ export default function Header() {
                 <Link onClick={() => setOpen(false)} to="/aboutus" className="header-menu-btn">About Us</Link>
                 <Link onClick={() => setOpen(false)} to="/contactus" className="header-menu-btn">Contact Us</Link>
                 {!user && (
-                    <Link onClick={() => setOpen(false)} to="/signin" className="header-menu-btn">Sign In</Link>
+                    <>
+                        <Link onClick={() => setOpen(false)} to="/signin" className="header-menu-btn">Sign In</Link>
+                        <Link onClick={() => setOpen(false)} to="/account" className="header-menu-btn">Create Account</Link>
+                    </>
                 )}
-                <Link
-                    onClick={() => setOpen(false)}
-                    to={!user ? "/account" : accountTarget}
-                    className="header-menu-btn"
-                >
-                    {!user ? "Create Account" : accountLabel}
-                </Link>
+                {isCustomer && (
+                    <Link onClick={() => setOpen(false)} to="/my-account" className="header-menu-btn">My Account</Link>
+                )}
+                {user && (
+                    <button onClick={handleLogout} className="header-menu-btn logout-btn">Logout</button>
+                )}
             </nav>
         </header>
     );

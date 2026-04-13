@@ -51,7 +51,7 @@ export default function CustomerDashboard() {
                 </span>
               </div>
 
-              {quote.items.length > 0 && (
+              {quote.items?.length > 0 && (
                 <table className="quote-items-table">
                   <thead>
                     <tr>

@@ -12,8 +12,9 @@ export function QuoteProvider({ children }) {
       credentials: "include",
     });
     const data = await res.json();
-    setMyQuotes(data);
-    return data;
+    const list = Array.isArray(data) ? data : [];
+    setMyQuotes(list);
+    return list;
   }
 
   async function fetchQuotes() {

@@ -1,11 +1,38 @@
 
 .hero-container {
-   margin: 0 auto 50px auto;
+   position: relative;
+   margin: 0 auto;
    justify-content: center;
    align-items: center;
    display: flex;
    flex-direction: column;
    z-index: 0;
+   background-image: var(--hero-background);
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   width: 100%;
+   min-height: 70vh;
+   color: aliceblue;
+}
+
+.hero-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.hero-container > * {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title,
+.hero-slogan {
+    color: 222222;
 }
 
 .logo-hero {
