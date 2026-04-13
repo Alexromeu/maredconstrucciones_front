@@ -24,7 +24,7 @@ export default function AdminLogin() {
 
   return (
     <section className="admin-login">
-      <h2>Admin Login</h2>
+      <h2>Login</h2>
 
       <form onSubmit={handleSubmit}>
         <input
