@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import logo from "../assets/logo1.png";
 import "../styles/header.css";
@@ -8,11 +8,20 @@ export default function Header() {
     const [open, setOpen] = useState(false);
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
 
     async function handleLogout() {
         await logout();
         setOpen(false);
         navigate("/");
+    }
+
+    function handleProjectsClick(e) {
+        setOpen(false);
+        if (location.pathname === "/") {
+            e.preventDefault();
+            document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+        }
     }
 
     const menuRef = useRef(null);
@@ -67,7 +76,7 @@ export default function Header() {
             <nav className="desktop-menu">
                 <div className="btns-holder">
                     <Link to="/" className="header-menu-btn">Home</Link>
-                    <Link to="/projects" className="header-menu-btn">Projects</Link>
+                    <Link to="/#projects" onClick={handleProjectsClick} className="header-menu-btn">Projects</Link>
                     <Link to="/services" className="header-menu-btn">Services</Link>
                     <Link to="/aboutus" className="header-menu-btn">About Us</Link>
                     <Link to="/contactus" className="header-menu-btn">Contact Us</Link>
@@ -94,7 +103,7 @@ export default function Header() {
 
             <nav ref={menuRef} className={`mobile-menu ${open ? "show" : ""}`}>
                 <Link onClick={() => setOpen(false)} to="/" className="header-menu-btn">Home</Link>
-                <Link onClick={() => setOpen(false)} to="/projects" className="header-menu-btn">Projects</Link>
+                <Link onClick={handleProjectsClick} to="/#projects" className="header-menu-btn">Projects</Link>
                 <Link onClick={() => setOpen(false)} to="/services" className="header-menu-btn">Services</Link>
                 <Link onClick={() => setOpen(false)} to="/aboutus" className="header-menu-btn">About Us</Link>
                 <Link onClick={() => setOpen(false)} to="/contactus" className="header-menu-btn">Contact Us</Link>

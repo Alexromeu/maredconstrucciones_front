@@ -1,6 +1,6 @@
 import Hero from './components/main/Hero'
 import PresentationSection from './components/main/PresentationSection'
-import Projects from "./components/pages/projects_f/Projects";
+import ProjectsSection from './components/main/ProjectsSection'
 import Services from "./components/pages/services_f/Services";
 import AboutUs from "./components/pages/aboutus_f/AboutUs";
 import ContactForm from "./components/pages/contactus_f/ContactUs";
@@ -32,9 +32,9 @@ function App() {
             <>
               <Hero/>
               <PresentationSection/>
+              <ProjectsSection/>
             </>
-            }/> 
-          <Route path="/projects" element={<Projects />} />
+            }/>
           <Route path="/services" element={<Services />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactForm />} />

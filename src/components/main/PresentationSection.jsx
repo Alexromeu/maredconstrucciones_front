@@ -7,7 +7,7 @@ export default function PresentationSection() {
         
         <div className="presentation-image">
           <img
-            src="https://images.unsplash.com/photo-1581091012184-5c7b6c2a3f5b"
+            src="/construction_site.jpg"
             alt="Construction site"
           />
         </div>
