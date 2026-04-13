@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
       sessionStorage.removeItem("auth_user");
     }
 
-    async function register({ name, email, password, role_id = 3 }) {
+    async function register({ name, email, password, role_id }) {
       try {
         const res = await fetch(convert_url("/auth/register"), {
           method: "POST",
@@ -59,8 +59,15 @@ export function AuthProvider({ children }) {
       }
     }
 
+    async function registerAdmin({ name, email, password }) {
+      if (user?.role_id !== 1) {
+        return { error: "Only admins can create admin accounts" };
+      }
+      return register({ name, email, password, role_id: 1 });
+    }
+
     return (
-      <AuthContext.Provider value={{ user, login, logout, register }}>
+      <AuthContext.Provider value={{ user, login, logout, register, registerAdmin }}>
         {children}
       </AuthContext.Provider>
     );

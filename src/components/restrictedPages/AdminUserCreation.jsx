@@ -1,10 +1,9 @@
 import { useState } from "react";
-import convert_url from "../../utiles/url_convert";
 import "./styles/AdminCreateUser.css";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function AdminCreateUser() {
-    const { user } = useAuth();
+    const { register } = useAuth();
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -16,23 +15,22 @@ export default function AdminCreateUser() {
 
     function handleChange(e) {
         const { name, value } = e.target;
-        setForm(prev => ({ ...prev, [name]: value }));
+        setForm(prev => ({
+            ...prev,
+            [name]: name === "role_id" ? Number(value) : value,
+        }));
     }
 
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading(true);
 
-        const res = await fetch(convert_url("/auth/register"), {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(form)
-        });
+        const result = await register(form);
 
         setLoading(false);
 
-        if (!res.ok) {
-            alert("Error creating user");
+        if (result?.error) {
+            alert(`Error creating user: ${result.error}`);
             return;
         }
 

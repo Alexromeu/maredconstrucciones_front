@@ -25,11 +25,12 @@ All API calls go through `src/utiles/url_convert.jsx`, which prepends the base U
 
 Two distinct route groups:
 
-1. **Public routes** — wrapped in `<MainLayout>` (Header + Footer + ContactInfo): `/`, `/projects`, `/services`, `/aboutus`, `/contactus`, `/account`
+1. **Public routes** — wrapped in `<MainLayout>` (Header + Outlet + ContactInfo + Footer): `/`, `/services`, `/aboutus`, `/contactus`, `/account`, `/signin`
 2. **Admin routes** — no shared layout, some protected by `<ProtectedRoute>`:
    - `/admin/login` — public
    - `/admin/*` — caught by ProtectedRoute → AdminHub
    - Individual admin pages: `/admin/services`, `/admin/services/create`, `/admin/services/edit`, `/admin/users/create`, `/admin/customers`, `/admin/customers/edit/:id`
+3. **Customer-protected**: `/my-account` → `CustomerDashboard` wrapped in `<ProtectedRoute>`.
 
 Note: some admin routes are declared both inside and outside the ProtectedRoute wrapper in `App.jsx` — this is intentional to allow direct navigation.
 
