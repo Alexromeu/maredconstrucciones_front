@@ -74,9 +74,16 @@ export function QuoteProvider({ children }) {
       throw new Error(message);
     }
 
+    const orphanedQuoteIds = [];
+
     const stripItem = quote => {
+      const originalLength = quote.items?.length || 0;
       const items = (quote.items || []).filter(i => i.id !== itemId);
-      if (items.length === quote.items?.length) return quote;
+      if (items.length === originalLength) return quote;
+      if (items.length === 0) {
+        orphanedQuoteIds.push(quote.id);
+        return null;
+      }
       const total = items.reduce(
         (sum, i) => sum + Number(i.subtotal ?? Number(i.price_at_time) * Number(i.quantity)),
         0
@@ -84,8 +91,19 @@ export function QuoteProvider({ children }) {
       return { ...quote, items, total };
     };
 
-    setMyQuotes(prev => (Array.isArray(prev) ? prev.map(stripItem) : prev));
-    setQuotes(prev => prev.map(stripItem));
+    setMyQuotes(prev =>
+      Array.isArray(prev) ? prev.map(stripItem).filter(Boolean) : prev
+    );
+    setQuotes(prev => prev.map(stripItem).filter(Boolean));
+
+    await Promise.all(
+      orphanedQuoteIds.map(qid =>
+        fetch(convert_url(`/api/quotes/${qid}`), {
+          method: "DELETE",
+          credentials: "include",
+        }).catch(err => console.error("Failed to delete empty quote", qid, err))
+      )
+    );
   }
 
   return (
