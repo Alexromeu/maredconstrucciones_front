@@ -76,6 +76,7 @@ export default function QuoteBuilder() {
       navigate("/signin");
       return;
     }
+    
     if (selectedCount === 0) {
       setStatusMsg("Please select at least one service.");
       return;
@@ -90,13 +91,16 @@ export default function QuoteBuilder() {
 
     setSubmitting(true);
     setStatusMsg("");
+
     try {
       await createQuote({ items });
       setStatusMsg("Estimate submitted successfully.");
       await fetchMyQuotes();
+
     } catch (err) {
       console.error(err);
-      setStatusMsg("Something went wrong. Please try again.");
+      setStatusMsg(err?.message || "Something went wrong. Please try again.");
+
     } finally {
       setSubmitting(false);
     }

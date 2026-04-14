@@ -32,9 +32,15 @@ export function QuoteProvider({ children }) {
       credentials: "include",
       body: JSON.stringify(payload),
     });
-    const newQuote = await res.json();
-    setQuotes(prev => [...prev, newQuote]);
-    return newQuote;
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const message = data?.error || `Failed to create quote (${res.status})`;
+      console.error("createQuote failed:", message, data);
+      throw new Error(message);
+    }
+    setQuotes(prev => [...prev, data]);
+    setMyQuotes(prev => [data, ...(Array.isArray(prev) ? prev : [])]);
+    return data;
   }
 
   async function updateQuote(id, payload) {
