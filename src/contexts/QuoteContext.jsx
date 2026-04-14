@@ -63,6 +63,31 @@ export function QuoteProvider({ children }) {
     setQuotes(prev => prev.filter(q => q.id !== id));
   }
 
+  async function deleteQuoteItem(itemId) {
+    const res = await fetch(convert_url(`/api/quote-items/${itemId}`), {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      const message = data?.error || `Failed to delete item (${res.status})`;
+      throw new Error(message);
+    }
+
+    const stripItem = quote => {
+      const items = (quote.items || []).filter(i => i.id !== itemId);
+      if (items.length === quote.items?.length) return quote;
+      const total = items.reduce(
+        (sum, i) => sum + Number(i.subtotal ?? Number(i.price_at_time) * Number(i.quantity)),
+        0
+      );
+      return { ...quote, items, total };
+    };
+
+    setMyQuotes(prev => (Array.isArray(prev) ? prev.map(stripItem) : prev));
+    setQuotes(prev => prev.map(stripItem));
+  }
+
   return (
     <QuoteContext.Provider value={{
       quotes,
@@ -71,7 +96,8 @@ export function QuoteProvider({ children }) {
       fetchMyQuotes,
       createQuote,
       updateQuote,
-      deleteQuote
+      deleteQuote,
+      deleteQuoteItem
     }}>
       {children}
     </QuoteContext.Provider>

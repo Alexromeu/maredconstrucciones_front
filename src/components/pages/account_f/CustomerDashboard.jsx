@@ -14,7 +14,7 @@ const STATUS_LABEL = {
 
 export default function CustomerDashboard() {
   const { user, logout } = useAuth();
-  const { myQuotes, fetchMyQuotes } = useQuote([]);
+  const { myQuotes, fetchMyQuotes, deleteQuoteItem } = useQuote([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +24,16 @@ export default function CustomerDashboard() {
   async function handleLogout() {
     await logout();
     navigate("/admin/login");
+  }
+
+  async function handleDeleteItem(itemId) {
+    if (!window.confirm("Remove this item from your estimate?")) return;
+    try {
+      await deleteQuoteItem(itemId);
+    } catch (err) {
+      console.error(err);
+      window.alert(err?.message || "Failed to delete item.");
+    }
   }
 
   return (
@@ -63,6 +73,7 @@ export default function CustomerDashboard() {
                       <th>Qty</th>
                       <th>Unit Price</th>
                       <th>Subtotal</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -72,6 +83,16 @@ export default function CustomerDashboard() {
                         <td>{item.quantity}</td>
                         <td>${Number(item.price_at_time).toFixed(2)}</td>
                         <td>${Number(item.subtotal).toFixed(2)}</td>
+                        <td>
+                          <button
+                            type="button"
+                            className="quote-item-delete"
+                            onClick={() => handleDeleteItem(item.id)}
+                            aria-label={`Delete ${item.service_name}`}
+                          >
+                            Delete
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
