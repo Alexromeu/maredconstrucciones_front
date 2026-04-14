@@ -1,7 +1,8 @@
 /* ====== PAGE WRAPPER ====== */
 .services-page {
+    position: relative;
     width: 100%;
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 4rem 1.5rem;
     display: flex;
@@ -15,11 +16,25 @@
     min-height: 100vh;
 }
 
+.services-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.services-page > * {
+    position: relative;
+    z-index: 1;
+}
+
 /* ====== TITLE ====== */
 .services-title {
     font-size: 2.8rem;
     font-weight: 700;
-    color: #1f1f1f;
+    color: #ffffff;
     margin-bottom: 1rem;
     text-align: center;
     letter-spacing: 0.5px;
@@ -30,7 +45,7 @@
     max-width: 800px;
     font-size: 1.15rem;
     line-height: 1.7;
-    color: #444;
+    color: #ffffff;
     text-align: center;
     margin-bottom: 3rem;
 }
@@ -38,8 +53,12 @@
 /* ====== GRID WRAPPER ====== */
 .services-wrapper {
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
     gap: 2rem;
     padding-bottom: 2rem;
 }
@@ -61,46 +80,48 @@
 
 /* ====== CARD WRAPPER ====== */
 .service-card {
+    flex: 0 1 280px;
     background: #ffffff;
-    border-radius: 12px;
-    padding: 1.2rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: 16px;
+    padding: 1.4rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* Hover effect */
 .service-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
 }
 
 /* ====== IMAGE ====== */
 .service-image {
     width: 100%;
-    height: 160px;
+    height: 170px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 1rem;
 }
 
 .service-image-placeholder {
     width: 100%;
-    height: 160px;
-    border-radius: 10px;
+    height: 170px;
+    border-radius: 12px;
     margin-bottom: 1rem;
     background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
 }
 
 /* ====== TITLE ====== */
 .service-card h3 {
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     font-weight: 600;
-    color: #222;
+    color: #1a1a1a;
     margin-bottom: 0.4rem;
 }
 
@@ -113,6 +134,7 @@
 
 .service-price strong {
     color: #1a1a1a;
+    font-size: 1.05rem;
 }
 
 .service-unit {

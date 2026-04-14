@@ -30,7 +30,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="create-account-container contactus-page">
+    <div className="create-account-container">
       <h2>Contáctanos</h2>
 
       <form className="create-account-form" onSubmit={handleSubmit}>

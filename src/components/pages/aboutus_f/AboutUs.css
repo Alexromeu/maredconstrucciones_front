@@ -1,6 +1,7 @@
 .aboutus-page {
+  position: relative;
   padding: 80px 24px;
-  background-image: var(--aboutus-page-bg);
+  background-image: var(--background-3);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -8,7 +9,18 @@
   min-height: 100vh;
 }
 
+.aboutus-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 0;
+  pointer-events: none;
+}
+
 .aboutus-wrapper {
+  position: relative;
+  z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -17,10 +29,11 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 20px;
+  color: #ffffff;
 }
 
 .aboutus-description {
   font-size: 1.1rem;
-  color: #555;
+  color: #ffffff;
   line-height: 1.6;
 }
