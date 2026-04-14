@@ -4,11 +4,12 @@ import { useAuth } from "../../../contexts/AuthContext";
 import "./CreateAccount.css";
 
 export default function CustomerLogin() {
-  const { user, login } = useAuth();
+  const { user, login, resendVerification } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({ email: "", password: "" });
   const [status, setStatus] = useState("");
+  const [needsVerification, setNeedsVerification] = useState(false);
 
   // If already logged in, skip this page
   useEffect(() => {
@@ -18,20 +19,30 @@ export default function CustomerLogin() {
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setNeedsVerification(false);
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
     setStatus("Signing in...");
+    setNeedsVerification(false);
 
-    const data = await login({ email: form.email, password: form.password });
+    const result = await login({ email: form.email, password: form.password });
 
-    if (!data) {
-      setStatus("Invalid email or password.");
+    if (result.error) {
+      setStatus(result.error);
+      if (result.status === 403) setNeedsVerification(true);
       return;
     }
 
-    navigate(data.role_id === 3 ? "/my-account" : "/admin");
+    navigate(result.user.role_id === 3 ? "/my-account" : "/admin");
+  }
+
+  async function handleResend() {
+    setStatus("Sending verification email...");
+    await resendVerification(form.email);
+    setStatus("If the account exists and is unverified, a new email was sent.");
+    setNeedsVerification(false);
   }
 
   return (
@@ -61,6 +72,12 @@ export default function CustomerLogin() {
       </form>
 
       {status && <p className="status-msg">{status}</p>}
+
+      {needsVerification && (
+        <button type="button" onClick={handleResend} className="resend-btn">
+          Resend verification email
+        </button>
+      )}
 
       <p className="auth-swap">
         Don't have an account? <Link to="/account">Create one</Link>

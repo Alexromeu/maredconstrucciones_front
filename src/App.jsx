@@ -17,6 +17,7 @@ import AdminEditCustomer from './components/restrictedPages/EditCustomer';
 import AdminCustomerList from './components/restrictedPages/CustomerList';
 import CustomerDashboard from './components/pages/account_f/CustomerDashboard';
 import CustomerLogin from './components/pages/account_f/CustomerLogin';
+import VerifyEmail from './components/pages/account_f/VerifyEmail';
 // import AdminImages from './components/restrictedPages/ManageImages';
 // import AdminLogs from './components/restrictedPages/ViewLogs';
 // import AdminSettings from './components/restrictedPages/Settings';
@@ -40,6 +41,7 @@ function App() {
           <Route path="/contactus" element={<ContactForm />} />
           <Route path="/account" element={<CreateAccount />} />
           <Route path="/signin" element={<CustomerLogin />} />
+          <Route path="/verify-email/:token" element={<VerifyEmail />} />
         </Route>
         <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/users/create" element={<AdminCreateUser />} />  

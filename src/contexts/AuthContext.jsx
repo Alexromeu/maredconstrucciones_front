@@ -18,15 +18,16 @@ export function AuthProvider({ children }) {
         credentials: "include",
         body: JSON.stringify(credentials),
       });
-      
-      const data = await res.json();
 
-      if (!res.ok) return null;
+      const data = await res.json().catch(() => ({}));
 
-      // data contains id, email, name, role_id — no token (stored in HTTP-only cookie)
+      if (!res.ok) {
+        return { error: data.error || "Login failed", status: res.status };
+      }
+
       setUser(data);
       sessionStorage.setItem("auth_user", JSON.stringify(data));
-      return data;
+      return { user: data };
     }
 
     async function logout() {
@@ -38,36 +39,79 @@ export function AuthProvider({ children }) {
       sessionStorage.removeItem("auth_user");
     }
 
-    async function register({ name, email, password, role_id }) {
+    async function register({ name, email, password }) {
       try {
         const res = await fetch(convert_url("/auth/register"), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          return { error: data.error || "Registration failed", status: res.status };
+        }
+
+        return { success: true, user: data };
+      } catch (err) {
+        return { error: "Server error" };
+      }
+    }
+
+    async function adminCreateUser({ name, email, password, role_id }) {
+      if (user?.role_id !== 1) {
+        return { error: "Only admins can create users" };
+      }
+      try {
+        const res = await fetch(convert_url("/auth/admin/create-user"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify({ name, email, password, role_id })
         });
 
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
 
         if (!res.ok) {
-          return { error: data.error || "Registration failed" };
+          return { error: data.error || "Failed to create user", status: res.status };
         }
 
-        return { success: true };
+        return { success: true, user: data };
       } catch (err) {
         return { error: "Server error" };
       }
     }
 
-    async function registerAdmin({ name, email, password }) {
-      if (user?.role_id !== 1) {
-        return { error: "Only admins can create admin accounts" };
+    async function resendVerification(email) {
+      try {
+        const res = await fetch(convert_url("/auth/resend-verification"), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        return res.ok;
+      } catch {
+        return false;
       }
-      return register({ name, email, password, role_id: 1 });
+    }
+
+    async function verifyEmail(token) {
+      try {
+        const res = await fetch(convert_url(`/auth/verify-email/${token}`));
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          return { error: data.error || "Verification failed", status: res.status };
+        }
+        return { success: true };
+      } catch {
+        return { error: "Server error" };
+      }
     }
 
     return (
-      <AuthContext.Provider value={{ user, login, logout, register, registerAdmin }}>
+      <AuthContext.Provider value={{ user, login, logout, register, adminCreateUser, resendVerification, verifyEmail }}>
         {children}
       </AuthContext.Provider>
     );

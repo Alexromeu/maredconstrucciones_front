@@ -55,7 +55,6 @@
 }
 
 .btns-holder > a{
- 
   color:aliceblue;
 }
 
@@ -107,7 +106,7 @@
 .burger-btn span {
   width: 28px;
   height: 3px;
-  background: black;
+  background: whitesmoke;
   transition: 0.3s;
 }
 
@@ -126,22 +125,29 @@
   display: none;
   flex-direction: column;
   gap: 20px;
-  margin-top: 20px;
+  padding: 20px;
   text-align: center;
   opacity: 0;
   max-height: 0;
   overflow: hidden;
   z-index: 2;
-  
+  position: absolute;
+  top: 100px;
+  right: 0;
 }
 
 .mobile-menu.show {
   display: flex;
   opacity: 1;
-  max-height: 300px;
-  opacity: 1;
+  max-height: 350px;
   pointer-events: auto;
   animation: dropdown 0.35s ease forwards;
+  background: rgb(0, 0, 0, 0.5);
+  width: 50vw;
+}
+
+.mobile-menu.show > a {
+  color: aliceblue;
 }
 
 @keyframes dropdown {

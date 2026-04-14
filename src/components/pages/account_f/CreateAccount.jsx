@@ -49,12 +49,11 @@ export default function CreateAccount() {
       return;
     }
 
-    // 2. Create the login entry (users table, role_id 3 = customer)
+    // 2. Create the login entry (backend hard-codes role_id = 3 for public register)
     const authResult = await register({
       name: `${form.name} ${form.lastname}`,
       email: form.email,
       password: form.password,
-      role_id: 3
     });
 
     if (authResult?.error) {
@@ -62,8 +61,8 @@ export default function CreateAccount() {
       return;
     }
 
-    setStatus("Account created! You can now log in.");
-    setTimeout(() => navigate("/admin/login"), 1500);
+    setStatus("Account created! Check your inbox to verify your email before signing in.");
+    setTimeout(() => navigate("/signin"), 2500);
   }
 
   return (

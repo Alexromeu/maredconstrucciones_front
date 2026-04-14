@@ -3,7 +3,7 @@ import "./styles/AdminCreateUser.css";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function AdminCreateUser() {
-    const { register } = useAuth();
+    const { adminCreateUser } = useAuth();
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -25,7 +25,7 @@ export default function AdminCreateUser() {
         e.preventDefault();
         setLoading(true);
 
-        const result = await register(form);
+        const result = await adminCreateUser(form);
 
         setLoading(false);
 
