@@ -19,7 +19,7 @@ export default function CustomerDashboard() {
 
   useEffect(() => {
     fetchMyQuotes();
-  }, []);
+  }, [myQuotes]);
 
   async function handleLogout() {
     await logout();
