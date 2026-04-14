@@ -1,5 +1,11 @@
 .aboutus-page {
   padding: 80px 24px;
+  background-image: var(--aboutus-page-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
 .aboutus-wrapper {

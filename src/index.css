@@ -8,6 +8,15 @@
   --background-header: linear-gradient(180deg,rgba(255, 255, 255, 1) 45%, rgba(255, 255, 255, 0) 100%);
   --logo-url: "assets/logo1.png";
   --hero-background: url("/hero-background3.jpg");
+  --background-3: url("/background3.jpg");
+  --background-4: url("/background4.jpg");
+  --background-5: url("/background5.jpg");
+  --construction-site-bg: url("/construction_site.jpg");
+  --hero-background-1: url("/hero-background.jpg");
+  --hero-background-2: url("/hero-background2.jpg");
+  --services-page-bg: var(--background-3);
+  --aboutus-page-bg: var(--background-4);
+  --contactus-page-bg: var(--background-5);
   color-scheme: light dark;
   color: rgb(44, 39, 39);
   background-color: #ecefef;

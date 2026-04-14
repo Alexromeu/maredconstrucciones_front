@@ -1,3 +1,11 @@
+.contactus-page {
+  background-image: var(--contactus-page-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
 
 /* Container */
 .contact-form {

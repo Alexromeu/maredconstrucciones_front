@@ -7,6 +7,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-image: var(--services-page-bg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
 }
 
 /* ====== TITLE ====== */

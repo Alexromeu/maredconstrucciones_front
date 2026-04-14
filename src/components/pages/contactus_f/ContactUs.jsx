@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../account_f/CreateAccount.css";
+import "./ContactUs.css";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="create-account-container">
+    <div className="create-account-container contactus-page">
       <h2>Contáctanos</h2>
 
       <form className="create-account-form" onSubmit={handleSubmit}>
