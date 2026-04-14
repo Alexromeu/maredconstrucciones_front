@@ -78,7 +78,7 @@ export default function AdminServiceEditor() {
           <label>
             Title
             <input
-              name="title"
+              name="name"
               value={form.name}
               onChange={handleChange}
               required
