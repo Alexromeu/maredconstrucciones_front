@@ -70,3 +70,28 @@
   background: #9bbcf0;
   cursor: not-allowed;
 }
+
+@media (max-width: 600px) {
+  .admin-edit-customer {
+    margin: 20px 12px;
+    padding: 20px 18px;
+    border-radius: 10px;
+  }
+
+  .admin-edit-customer h2 {
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+  }
+
+  .admin-edit-customer form {
+    gap: 14px;
+  }
+
+  .admin-edit-customer input {
+    font-size: 16px;
+  }
+
+  .admin-edit-customer button {
+    font-size: 0.95rem;
+  }
+}

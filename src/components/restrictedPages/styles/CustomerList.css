@@ -78,3 +78,31 @@
 .edit-btn:active {
   transform: scale(0.97);
 }
+
+@media (max-width: 600px) {
+  .admin-customer-list {
+    margin: 20px 12px;
+    padding: 18px 16px;
+    border-radius: 10px;
+  }
+
+  .admin-customer-list h2 {
+    font-size: 1.4rem;
+  }
+
+  .admin-customer-list .search {
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+
+  .customer-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 12px 14px;
+  }
+
+  .edit-btn {
+    justify-self: start;
+    margin-top: 4px;
+  }
+}

@@ -102,3 +102,30 @@
   background: #222;
   color: #fff;
 }
+
+@media (max-width: 600px) {
+  .create-account-container {
+    margin: 100px 12px 30px 12px;
+    padding: 20px 18px;
+    border-radius: 8px;
+  }
+
+  .create-account-container h2 {
+    font-size: 1.35rem;
+    margin-bottom: 16px;
+  }
+
+  .create-account-form {
+    gap: 14px;
+  }
+
+  .create-account-form input,
+  .create-account-form textarea {
+    padding: 11px 12px;
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
+
+  .create-account-form textarea {
+    min-height: 100px;
+  }
+}

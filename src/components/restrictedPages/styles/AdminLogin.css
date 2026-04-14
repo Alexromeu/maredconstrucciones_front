@@ -52,3 +52,28 @@
 .admin-login button:active {
   transform: scale(0.98);
 }
+
+@media (max-width: 600px) {
+  .admin-login {
+    margin: 2rem 12px;
+    padding: 1.5rem 1.25rem;
+    border-radius: 10px;
+  }
+
+  .admin-login h2 {
+    font-size: 1.45rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .admin-login form {
+    gap: 1rem;
+  }
+
+  .admin-login input {
+    font-size: 16px;
+  }
+
+  .admin-login button {
+    font-size: 1rem;
+  }
+}

@@ -29,6 +29,7 @@ export default function CustomerDashboard() {
   return (
     <>
     <Header />
+    <div className="customer-dashboard-page">
     <div className="customer-dashboard">
       <header className="dashboard-header">
         <h1>My Estimates</h1>
@@ -84,6 +85,7 @@ export default function CustomerDashboard() {
           ))}
         </div>
       )}
+    </div>
     </div>
     </>
   );

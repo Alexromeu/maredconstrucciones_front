@@ -9,10 +9,19 @@ export function ServiceProvider({ children }) {
   const [services, setServices] = useState([]);
 
   const fetchServices = useCallback(async () => {
-    const res = await fetch(convert_url("/api/services"), {
-    });
-    const data = await res.json();
-    setServices(data);
+    try {
+      const res = await fetch(convert_url("/api/services"));
+      if (!res.ok) {
+        console.error("fetchServices failed:", res.status, res.statusText);
+        setServices([]);
+        return;
+      }
+      const data = await res.json();
+      setServices(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("fetchServices error:", err);
+      setServices([]);
+    }
   }, []);
 
   const updateService = useCallback(async (id, payload) => {

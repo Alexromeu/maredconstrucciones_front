@@ -58,3 +58,28 @@
 .create-user-btn:active {
   transform: scale(0.98);
 }
+
+@media (max-width: 600px) {
+  .admin-create-user {
+    margin: 1.5rem 12px;
+    padding: 1.25rem 1rem;
+  }
+
+  .admin-create-user h2 {
+    font-size: 1.45rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .user-form {
+    gap: 1rem;
+  }
+
+  .user-form input,
+  .user-form select {
+    font-size: 16px;
+  }
+
+  .create-user-btn {
+    font-size: 1rem;
+  }
+}

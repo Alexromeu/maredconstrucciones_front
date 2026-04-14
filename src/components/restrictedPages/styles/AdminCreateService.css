@@ -64,3 +64,28 @@
 .create-btn:active {
   transform: scale(0.98);
 }
+
+@media (max-width: 600px) {
+  .admin-create-service {
+    margin: 1.5rem 12px;
+    padding: 1.25rem 1rem;
+  }
+
+  .admin-create-service h2 {
+    font-size: 1.45rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .create-form {
+    gap: 1rem;
+  }
+
+  .create-form input,
+  .create-form textarea {
+    font-size: 16px;
+  }
+
+  .create-btn {
+    font-size: 1rem;
+  }
+}

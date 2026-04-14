@@ -63,3 +63,29 @@
 .save-btn:hover {
   background: #005fcc;
 }
+
+@media (max-width: 600px) {
+  .admin-service-editor {
+    margin: 1.5rem 12px;
+    padding: 1.25rem 1rem;
+  }
+
+  .admin-service-editor h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .service-form {
+    gap: 1rem;
+  }
+
+  .service-form input,
+  .service-form textarea,
+  .service-select select {
+    font-size: 16px;
+  }
+
+  .save-btn {
+    font-size: 1rem;
+  }
+}
