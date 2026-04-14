@@ -78,6 +78,7 @@ export default function Header() {
                     <Link to="/" className="header-menu-btn">Home</Link>
                     <Link to="/#projects" onClick={handleProjectsClick} className="header-menu-btn">Projects</Link>
                     <Link to="/services" className="header-menu-btn">Services</Link>
+                    <Link to="/quote" className="header-menu-btn">Estimate</Link>
                     <Link to="/aboutus" className="header-menu-btn">About Us</Link>
                     <Link to="/contactus" className="header-menu-btn">Contact Us</Link>
                 </div>
@@ -105,6 +106,7 @@ export default function Header() {
                 <Link onClick={() => setOpen(false)} to="/" className="header-menu-btn">Home</Link>
                 <Link onClick={handleProjectsClick} to="/#projects" className="header-menu-btn">Projects</Link>
                 <Link onClick={() => setOpen(false)} to="/services" className="header-menu-btn">Services</Link>
+                <Link onClick={() => setOpen(false)} to="/quote" className="header-menu-btn">Estimate</Link>
                 <Link onClick={() => setOpen(false)} to="/aboutus" className="header-menu-btn">About Us</Link>
                 <Link onClick={() => setOpen(false)} to="/contactus" className="header-menu-btn">Contact Us</Link>
                 {!user && (

@@ -16,6 +16,7 @@ import AdminCreateService from './components/restrictedPages/CreateService';
 import AdminEditCustomer from './components/restrictedPages/EditCustomer';
 import AdminCustomerList from './components/restrictedPages/CustomerList';
 import CustomerDashboard from './components/pages/account_f/CustomerDashboard';
+import QuoteBuilder from './components/pages/quote_f/QuoteBuilder';
 import CustomerLogin from './components/pages/account_f/CustomerLogin';
 import VerifyEmail from './components/pages/account_f/VerifyEmail';
 // import AdminImages from './components/restrictedPages/ManageImages';
@@ -42,6 +43,7 @@ function App() {
           <Route path="/account" element={<CreateAccount />} />
           <Route path="/signin" element={<CustomerLogin />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
+          <Route path="/quote" element={<QuoteBuilder />} />
         </Route>
         <Route path="/admin/login" element={<AdminLogin />} />
 
