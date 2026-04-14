@@ -23,21 +23,30 @@
   gap: 18px;
 }
 
-.create-account-form input {
+.create-account-form input,
+.create-account-form textarea {
   padding: 12px 14px;
   border: 1px solid #d1d1d1;
   border-radius: 6px;
   font-size: 1rem;
+  font-family: inherit;
   color: #222;
   background: #fff;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.create-account-form input::placeholder {
+.create-account-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.create-account-form input::placeholder,
+.create-account-form textarea::placeholder {
   color: #888;
 }
 
-.create-account-form input:focus {
+.create-account-form input:focus,
+.create-account-form textarea:focus {
   border-color: #333;
   box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
   outline: none;

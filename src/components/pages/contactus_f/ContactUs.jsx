@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./ContactUs.css"
+import "../account_f/CreateAccount.css";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -9,9 +9,9 @@ export default function ContactForm() {
   });
 
   const handleChange = (e) => {
-    setFormData({ 
-      ...formData, 
-      [e.target.name]: e.target.value 
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
     });
   };
 
@@ -29,37 +29,38 @@ export default function ContactForm() {
   };
 
   return (
-    <>
-    <h1 className="contact-title">Contactanos</h1>
-    <form className="contact-form" onSubmit={handleSubmit}>
-      <input 
-        type="text" 
-        name="name" 
-        placeholder="Nombre" 
-        value={formData.name}
-        onChange={handleChange}
-        required
-      />
+    <div className="create-account-container">
+      <h2>Contáctanos</h2>
 
-      <input 
-        type="email" 
-        name="email" 
-        placeholder="Correo electrónico" 
-        value={formData.email}
-        onChange={handleChange}
-        required
-      />
+      <form className="create-account-form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Nombre"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
 
-      <textarea 
-        name="message" 
-        placeholder="Mensaje" 
-        value={formData.message}
-        onChange={handleChange}
-        required
-      />
+        <input
+          type="email"
+          name="email"
+          placeholder="Correo electrónico"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
 
-      <button type="submit">Enviar</button>
-    </form>
-    </>
+        <textarea
+          name="message"
+          placeholder="Mensaje"
+          value={formData.message}
+          onChange={handleChange}
+          required
+        />
+
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
   );
 }
