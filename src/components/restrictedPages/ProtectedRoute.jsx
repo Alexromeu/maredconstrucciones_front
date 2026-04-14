@@ -1,18 +1,21 @@
 import { useAuth } from "../../contexts/AuthContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-export default function ProtectedRoute({ children }) {
+export default function ProtectedRoute({ children, allowedRoles }) {
   const { user } = useAuth();
+  const location = useLocation();
 
-  // Not logged in
+  const isAdminArea = location.pathname.startsWith("/admin");
+  const loginPath = isAdminArea ? "/admin/login" : "/signin";
+
   if (!user) {
-    return <Navigate to="/admin/login" replace />;
+    return <Navigate to={loginPath} replace />;
   }
 
-  // Not admin
-    // if (user.role_id !== 1) {
-    //     return <Navigate to="/" replace />;
-    // }
+  if (allowedRoles && !allowedRoles.includes(user.role_id)) {
+    const fallback = user.role_id === 3 ? "/my-account" : "/";
+    return <Navigate to={fallback} replace />;
+  }
 
-  return children;
+  return children ?? <Outlet />;
 }

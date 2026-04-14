@@ -44,26 +44,21 @@ function App() {
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
         </Route>
         <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/users/create" element={<AdminCreateUser />} />  
-          <Route
-            path="/admin/*"
-            element={
-              <ProtectedRoute>
-                <AdminHub />
-              </ProtectedRoute>
-            }
-          /> 
 
-        <Route path="/admin/services" element={<AdminServiceEditor />} />
-        <Route path="/admin/services/create" element={<AdminCreateService />} />
-        <Route path="/admin/services/edit" element={<AdminServiceEditor />} />
-        <Route path="/admin/users/create" element={<AdminCreateUser />} />
-        <Route path="/admin/customers" element={<AdminCustomerList />} />
-        <Route path="/admin/customers/edit/:id" element={<AdminEditCustomer />} />
+        <Route element={<ProtectedRoute allowedRoles={[1]} />}>
+          <Route path="/admin/*" element={<AdminHub />} />
+          <Route path="/admin/services" element={<AdminServiceEditor />} />
+          <Route path="/admin/services/create" element={<AdminCreateService />} />
+          <Route path="/admin/services/edit" element={<AdminServiceEditor />} />
+          <Route path="/admin/users/create" element={<AdminCreateUser />} />
+          <Route path="/admin/customers" element={<AdminCustomerList />} />
+          <Route path="/admin/customers/edit/:id" element={<AdminEditCustomer />} />
+        </Route>
+
         <Route
           path="/my-account"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={[3]}>
               <CustomerDashboard />
             </ProtectedRoute>
           }
