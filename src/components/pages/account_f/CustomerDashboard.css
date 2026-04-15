@@ -117,6 +117,23 @@
 .status-approved { background: #e6f4ea; color: #2e7d32; }
 .status-rejected { background: #fdecea; color: #c62828; }
 
+.quote-delete {
+  background: transparent;
+  color: #c62828;
+  border: 1px solid #c62828;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.quote-delete:hover {
+  background: #c62828;
+  color: #fff;
+}
+
 .quote-items-table {
   width: 100%;
   border-collapse: collapse;

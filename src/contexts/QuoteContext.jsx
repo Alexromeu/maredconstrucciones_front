@@ -33,6 +33,7 @@ export function QuoteProvider({ children }) {
       body: JSON.stringify(payload),
     });
     const data = await res.json().catch(() => ({}));
+    
     if (!res.ok) {
       const message = data?.error || `Failed to create quote (${res.status})`;
       console.error("createQuote failed:", message, data);
@@ -56,11 +57,19 @@ export function QuoteProvider({ children }) {
   }
 
   async function deleteQuote(id) {
-    await fetch(convert_url(`/api/quotes/${id}`), {
+    const res = await fetch(convert_url(`/api/quotes/${id}`), {
       method: "DELETE",
       credentials: "include",
     });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      const message = data?.error || `Failed to delete quote (${res.status})`;
+      throw new Error(message);
+    }
     setQuotes(prev => prev.filter(q => q.id !== id));
+    setMyQuotes(prev =>
+      Array.isArray(prev) ? prev.filter(q => q.id !== id) : prev
+    );
   }
 
   async function deleteQuoteItem(itemId) {

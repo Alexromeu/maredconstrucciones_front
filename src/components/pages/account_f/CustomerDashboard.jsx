@@ -14,7 +14,7 @@ const STATUS_LABEL = {
 
 export default function CustomerDashboard() {
   const { user, logout } = useAuth();
-  const { myQuotes, fetchMyQuotes, deleteQuoteItem } = useQuote([]);
+  const { myQuotes, fetchMyQuotes, deleteQuoteItem, deleteQuote } = useQuote([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +33,16 @@ export default function CustomerDashboard() {
     } catch (err) {
       console.error(err);
       window.alert(err?.message || "Failed to delete item.");
+    }
+  }
+
+  async function handleDeleteQuote(quoteId) {
+    if (!window.confirm("Delete this entire estimate? This cannot be undone.")) return;
+    try {
+      await deleteQuote(quoteId);
+    } catch (err) {
+      console.error(err);
+      window.alert(err?.message || "Failed to delete estimate.");
     }
   }
 
@@ -63,6 +73,14 @@ export default function CustomerDashboard() {
                 <span className="quote-date">
                   {new Date(quote.created_at).toLocaleDateString()}
                 </span>
+                <button
+                  type="button"
+                  className="quote-delete"
+                  onClick={() => handleDeleteQuote(quote.id)}
+                  aria-label={`Delete estimate #${quote.id}`}
+                >
+                  Delete Estimate
+                </button>
               </div>
 
               {quote.items?.length > 0 && (
