@@ -32,6 +32,7 @@ export function QuoteProvider({ children }) {
       credentials: "include",
       body: JSON.stringify(payload),
     });
+    console.log(document.cookie);
     const data = await res.json().catch(() => ({}));
     
     if (!res.ok) {
