@@ -1,5 +1,5 @@
 import { useState } from "react";
-import convert_url from "../../utiles/url_convert";
+import { apiFetch } from "../../utiles/api";
 import { useService } from "../../contexts/ServiceContext";
 import "./styles/AdminCreateService.css";
 
@@ -26,10 +26,9 @@ export default function AdminCreateService() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const res = await fetch(convert_url("/api/services"), {
+    const res = await apiFetch("/api/services", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
       body: JSON.stringify(form),
     });
 

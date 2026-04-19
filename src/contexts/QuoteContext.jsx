@@ -1,5 +1,5 @@
 import { createContext, useState, useContext } from "react";
-import convert_url from "../utiles/url_convert";
+import { apiFetch } from "../utiles/api";
 
 export const QuoteContext = createContext();
 
@@ -8,9 +8,7 @@ export function QuoteProvider({ children }) {
   const [myQuotes, setMyQuotes] = useState([]);
 
   async function fetchMyQuotes() {
-    const res = await fetch(convert_url("/api/quotes/my"), {
-      credentials: "include",
-    });
+    const res = await apiFetch("/api/quotes/my");
     const data = await res.json();
     const list = Array.isArray(data) ? data : [];
     setMyQuotes(list);
@@ -18,23 +16,19 @@ export function QuoteProvider({ children }) {
   }
 
   async function fetchQuotes() {
-    const res = await fetch(convert_url("/api/quotes"), {
-      credentials: "include",
-    });
+    const res = await apiFetch("/api/quotes");
     const data = await res.json();
     setQuotes(data);
   }
 
   async function createQuote(payload) {
-    const res = await fetch(convert_url("/api/quotes"), {
+    const res = await apiFetch("/api/quotes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
       body: JSON.stringify(payload),
     });
-    console.log(document.cookie);
     const data = await res.json().catch(() => ({}));
-    
+
     if (!res.ok) {
       const message = data?.error || `Failed to create quote (${res.status})`;
       console.error("createQuote failed:", message, data);
@@ -46,10 +40,9 @@ export function QuoteProvider({ children }) {
   }
 
   async function updateQuote(id, payload) {
-    const res = await fetch(convert_url(`/api/quotes/${id}`), {
+    const res = await apiFetch(`/api/quotes/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
       body: JSON.stringify(payload),
     });
     const updated = await res.json();
@@ -58,9 +51,8 @@ export function QuoteProvider({ children }) {
   }
 
   async function deleteQuote(id) {
-    const res = await fetch(convert_url(`/api/quotes/${id}`), {
+    const res = await apiFetch(`/api/quotes/${id}`, {
       method: "DELETE",
-      credentials: "include",
     });
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
@@ -74,9 +66,8 @@ export function QuoteProvider({ children }) {
   }
 
   async function deleteQuoteItem(itemId) {
-    const res = await fetch(convert_url(`/api/quote-items/${itemId}`), {
+    const res = await apiFetch(`/api/quote-items/${itemId}`, {
       method: "DELETE",
-      credentials: "include",
     });
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
@@ -108,9 +99,8 @@ export function QuoteProvider({ children }) {
 
     await Promise.all(
       orphanedQuoteIds.map(qid =>
-        fetch(convert_url(`/api/quotes/${qid}`), {
+        apiFetch(`/api/quotes/${qid}`, {
           method: "DELETE",
-          credentials: "include",
         }).catch(err => console.error("Failed to delete empty quote", qid, err))
       )
     );

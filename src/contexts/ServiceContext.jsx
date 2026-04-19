@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import convert_url from "../utiles/url_convert";
+import { apiFetch } from "../utiles/api";
 import { useCallback } from "react";
 
 export const ServiceContext = createContext();
@@ -10,7 +10,7 @@ export function ServiceProvider({ children }) {
 
   const fetchServices = useCallback(async () => {
     try {
-      const res = await fetch(convert_url("/api/services"));
+      const res = await apiFetch("/api/services");
       if (!res.ok) {
         console.error("fetchServices failed:", res.status, res.statusText);
         setServices([]);
@@ -25,10 +25,9 @@ export function ServiceProvider({ children }) {
   }, []);
 
   const updateService = useCallback(async (id, payload) => {
-    const res = await fetch(convert_url(`/api/services/${id}`), {
+    const res = await apiFetch(`/api/services/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
       body: JSON.stringify(payload),
     });
 
@@ -36,7 +35,7 @@ export function ServiceProvider({ children }) {
       const errorData = await res.json();
       console.error("Update error:", errorData);
       return { error: errorData.error || "Failed to update service" };
-    } 
+    }
     const updated = await res.json();
 
     setServices(prev =>
