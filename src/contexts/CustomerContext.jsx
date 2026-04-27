@@ -14,18 +14,6 @@ export function CustomerProvider({ children }) {
     setCustomers(data);
   }
 
-  async function createCustomer(payload) {
-    const res = await apiFetch("/api/customers", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    const newCustomer = await res.json();
-
-    setCustomers(prev => [...prev, newCustomer]);
-    return newCustomer;
-  }
-
   async function updateCustomer(id, payload) {
     const res = await apiFetch(`/api/customers/${id}`, {
       method: "PATCH",
@@ -50,7 +38,6 @@ export function CustomerProvider({ children }) {
       value={{
         customers,
         fetchCustomers,
-        createCustomer,
         updateCustomer,
         deleteCustomer,
       }}

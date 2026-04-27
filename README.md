@@ -31,7 +31,7 @@ npm run preview    # preview the production build locally
 npm run lint       # run ESLint
 ```
 
-The base API URL is configured in `src/utiles/url_convert.jsx`. All API calls go through `convert_url("/api/...")`.
+The base API URL is driven by `VITE_API_URL` (set in `.env`). It falls back to the production Render URL if unset. All API calls go through `apiFetch(...)` in `src/utiles/api.jsx`, which handles the `Authorization` header and 401 redirects.
 
 ## Routes
 
@@ -90,23 +90,30 @@ src/
 
 ## Auth
 
-- Sessions are cookie-based (HTTP-only). `fetch` calls use `credentials: "include"`.
-- The logged-in user object is cached in `sessionStorage` under key `auth_user` so a refresh doesn't require re-login.
+- JWT is stored in `localStorage` under the key `token`. Every request through `apiFetch` attaches `Authorization: Bearer <token>`.
+- On boot, if a token exists, `AuthProvider` calls `GET /auth/me` to rehydrate the user.
+- A 401 response clears the token and dispatches an `auth:unauthorized` event; `AuthProvider` listens for it and nulls the user, which bounces protected routes to their login page.
 - `ProtectedRoute` (in `src/components/restrictedPages/`) gates `/admin/*` and `/my-account`.
+- This header-based setup is a stopgap while the frontend and backend live on different `onrender.com` subdomains (cross-site per the Public Suffix List — mobile browsers block third-party cookies). Revisit once both services share a registrable domain.
 
 ## Backend endpoints
 
 ```
-/api/customers                       GET, POST
+/api/customers                       GET, POST (admin/employee)
 /api/customers/:id                   GET, PATCH, DELETE
-/api/services                        GET, POST
+/api/services                        GET (public), POST
 /api/services/:id                    GET, PATCH, DELETE
 /api/quotes                          GET, POST
-/api/quotes/:id                      GET, PATCH, DELETE
-/api/quotes/:id/offered-services     GET, POST
-/api/offered-services/:id            PATCH, DELETE
+/api/quotes/my                       GET
+/api/quotes/:id                      GET, PATCH, DELETE (ownership-checked for customers)
+/api/quotes/:quoteId/items           GET, POST
+/api/quote-items/:id                 PATCH, DELETE
+/api/contact                         POST (rate-limited, public)
 /auth/login                          POST
 /auth/logout                         POST
-/auth/register                       POST
+/auth/register                       POST (creates both users + customers rows)
+/auth/resend-verification            POST
+/auth/verify-email/:token            GET
 /auth/me                             GET
+/auth/admin/create-user              POST (admin only)
 ```

@@ -53,6 +53,21 @@
   transform: scale(0.98);
 }
 
+.admin-login button:disabled {
+  background: #8ab7e8;
+  cursor: not-allowed;
+}
+
+.admin-login-error {
+  margin-top: 1rem;
+  padding: 0.6rem 0.8rem;
+  background: #fde8e8;
+  color: #a11414;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
 @media (max-width: 600px) {
   .admin-login {
     margin: 2rem 12px;

@@ -5,9 +5,6 @@ export default function AdminHub() {
   const links = [
     { label: "Edit Services", path: "/admin/services/edit" },
     { label: "Create Service", path: "/admin/services/create" },
-    { label: "Manage Images", path: "/admin/images" },
-    { label: "View Logs", path: "/admin/logs" },
-    { label: "Settings", path: "/admin/settings" },
     { label: "Create User", path: "/admin/users/create" },
     { label: "Customer List", path: "/admin/customers" }
   ];

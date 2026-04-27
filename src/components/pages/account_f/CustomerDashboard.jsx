@@ -14,16 +14,16 @@ const STATUS_LABEL = {
 
 export default function CustomerDashboard() {
   const { user, logout } = useAuth();
-  const { myQuotes, fetchMyQuotes, deleteQuoteItem, deleteQuote } = useQuote([]);
+  const { myQuotes, fetchMyQuotes, deleteQuoteItem, deleteQuote } = useQuote();
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchMyQuotes();
-  }, [myQuotes]);
+  }, [fetchMyQuotes]);
 
   async function handleLogout() {
     await logout();
-    navigate("/admin/login");
+    navigate("/signin");
   }
 
   async function handleDeleteItem(itemId) {

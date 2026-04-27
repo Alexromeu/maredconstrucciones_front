@@ -8,18 +8,28 @@ export default function AdminLogin() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setError("");
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setError("");
+    setSubmitting(true);
 
-    const data = await login({ email: form.email, password: form.password });
-    if (!data) return alert("Invalid credentials");
+    const result = await login({ email: form.email, password: form.password });
+    setSubmitting(false);
 
-    navigate(data.role_id === 3 ? "/my-account" : "/admin");
+    if (result.error) {
+      setError(result.error);
+      return;
+    }
+
+    navigate(result.user.role_id === 3 ? "/my-account" : "/admin");
   }
 
   return (
@@ -32,6 +42,7 @@ export default function AdminLogin() {
           placeholder="Email"
           value={form.email}
           onChange={handleChange}
+          required
         />
 
         <input
@@ -40,10 +51,15 @@ export default function AdminLogin() {
           placeholder="Password"
           value={form.password}
           onChange={handleChange}
+          required
         />
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={submitting}>
+          {submitting ? "Signing in..." : "Login"}
+        </button>
       </form>
+
+      {error && <p className="admin-login-error">{error}</p>}
     </section>
   );
 }

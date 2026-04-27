@@ -13,15 +13,6 @@
   align-items: flex-start;
 }
 
-.quote-page::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 0;
-  pointer-events: none;
-}
-
 .quote-container {
   position: relative;
   z-index: 1;

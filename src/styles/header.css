@@ -11,6 +11,12 @@
   flex-direction: column;
   z-index: 1000;
   color: white;
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+.header-container.hidden {
+  transform: translateY(-100%);
 }
 
 
@@ -22,7 +28,7 @@
 }
 
 .account-btn {
-  background-image: url('/public/account-ico-white.svg');
+  background-image: url('/public/account_ico.svg');
   background-size: cover;
   height: 40px;
   width: 40px;
@@ -51,11 +57,11 @@
   display: flex;
   gap: 35px;
   justify-content: end;
-  color:aliceblue;
+  color:black;
 }
 
 .btns-holder > a{
-  color:aliceblue;
+  color:black;
 }
 
 .account-btn-holder {
@@ -84,7 +90,7 @@
 }
 
 .header-menu-btn {
-  color:aliceblue;
+  color:black;
   text-decoration: none;
   font-size: 1.1rem;
   font-weight: 500;

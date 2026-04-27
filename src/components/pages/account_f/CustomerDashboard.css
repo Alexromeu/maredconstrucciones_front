@@ -2,20 +2,12 @@
   position: relative;
   min-height: 100vh;
   width: 100%;
-  background-image: var(--background-4);
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-}
-
-.customer-dashboard-page::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 0;
-  pointer-events: none;
+  color: #000000;
 }
 
 .customer-dashboard {
@@ -27,8 +19,8 @@
   padding-top: 120px;
   padding-bottom: 3rem;
   font-family: sans-serif;
-  color: #ffffff;
 }
+
 
 .dashboard-header {
   display: flex;
@@ -40,7 +32,7 @@
 .dashboard-header h1 {
   font-size: 1.8rem;
   margin: 0;
-  color: #ffffff;
+  color: #000000;
 }
 
 .dashboard-user {
@@ -51,7 +43,7 @@
 
 .dashboard-user span {
   font-weight: 600;
-  color: #ffffff;
+  color: #000000;
 }
 
 .dashboard-user button {
@@ -66,7 +58,7 @@
 .no-quotes {
   text-align: center;
   margin-top: 3rem;
-  color: #ffffff;
+  color: #000000;
   font-size: 1.05rem;
 }
 

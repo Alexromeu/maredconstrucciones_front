@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { useCustomer } from "../../../contexts/CustomerContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import "./CreateAccount.css";
 
 export default function CreateAccount() {
-  const { createCustomer } = useCustomer();
   const { register } = useAuth();
   const navigate = useNavigate();
 
@@ -35,29 +33,17 @@ export default function CreateAccount() {
 
     setStatus("Creating account...");
 
-    // 1. Create the customer record
-    const customerResult = await createCustomer({
+    const result = await register({
       name: form.name,
       lastname: form.lastname,
       phone_number: form.phone_number,
       email: form.email,
-      address: form.address
-    });
-
-    if (customerResult?.error) {
-      setStatus(customerResult.error);
-      return;
-    }
-
-    // 2. Create the login entry (backend hard-codes role_id = 3 for public register)
-    const authResult = await register({
-      name: `${form.name} ${form.lastname}`,
-      email: form.email,
+      address: form.address,
       password: form.password,
     });
 
-    if (authResult?.error) {
-      setStatus(`Account info saved, but login setup failed: ${authResult.error}`);
+    if (result?.error) {
+      setStatus(result.error);
       return;
     }
 

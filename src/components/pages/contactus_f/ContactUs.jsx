@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiFetch } from "../../../utiles/api";
 import "../account_f/CreateAccount.css";
 import "./ContactUs.css";
 
@@ -6,27 +7,40 @@ export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
+    website: "",
   });
+  const [status, setStatus] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
+    setStatus("");
 
-    const res = await fetch("http://localhost:3000/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
-    });
+    try {
+      const res = await apiFetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json().catch(() => ({}));
 
-    const data = await res.json();
-    console.log(data);
+      if (!res.ok) {
+        setStatus(data.error || "No se pudo enviar el mensaje.");
+      } else {
+        setStatus("¡Mensaje enviado! Te responderemos pronto.");
+        setFormData({ name: "", email: "", message: "", website: "" });
+      }
+    } catch {
+      setStatus("Error de red. Intenta de nuevo.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -60,8 +74,23 @@ export default function ContactForm() {
           required
         />
 
-        <button type="submit">Enviar</button>
+        <input
+          type="text"
+          name="website"
+          value={formData.website}
+          onChange={handleChange}
+          tabIndex="-1"
+          autoComplete="off"
+          style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px" }}
+          aria-hidden="true"
+        />
+
+        <button type="submit" disabled={submitting}>
+          {submitting ? "Enviando..." : "Enviar"}
+        </button>
       </form>
+
+      {status && <p className="status-msg">{status}</p>}
     </div>
   );
 }

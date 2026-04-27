@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useEffectEvent } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import logo from "../assets/logo1.png";
@@ -6,7 +6,9 @@ import "../styles/header.css";
 
 export default function Header() {
     const [open, setOpen] = useState(false);
+    const [hidden, setHidden] = useState(false);
     const { user, logout } = useAuth();
+   
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -27,6 +29,20 @@ export default function Header() {
     const menuRef = useRef(null);
     const btnRef = useRef(null);
 
+    // Hide on scroll down, show on scroll up
+    useEffect(() => {
+        let lastY = window.scrollY;
+        function onScroll() {
+            const y = window.scrollY;
+            if (open) { setHidden(false); lastY = y; return; }
+            if (y > lastY && y > 80) setHidden(true);
+            else if (y < lastY) setHidden(false);
+            lastY = y;
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, [open]);
+
     // Close menu when clicking outside
     useEffect(() => {
         if (!open) return;
@@ -46,6 +62,7 @@ export default function Header() {
         return () => document.removeEventListener("click", handleClickOutside);
     }, [open]);
 
+  
     // Public header is customer-facing only. Admin/staff never expose admin links
     // in the public UI — that area is reached only by typing the URL.
     const isCustomer = user?.role_id === 3;
@@ -55,7 +72,7 @@ export default function Header() {
     const accountLabel  = isCustomer ? "My Account"  : "Sign In";
 
     return (
-        <header className="header-container">
+        <header className={`header-container ${hidden ? "hidden" : ""}`}>
             <div className="header-top">
                 <Link className="logo-home-link" to="/">
                     <img className="logo-header" src={logo} alt="Logo" />

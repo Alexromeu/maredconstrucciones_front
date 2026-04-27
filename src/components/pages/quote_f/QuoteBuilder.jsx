@@ -17,8 +17,11 @@ export default function QuoteBuilder() {
 
   useEffect(() => {
     fetchServices();
-    fetchMyQuotes();
-  }, []);
+  }, [fetchServices]);
+
+  useEffect(() => {
+    if (user) fetchMyQuotes();
+  }, [user, fetchMyQuotes]);
 
   useEffect(() => {
     if (!services.length) return;

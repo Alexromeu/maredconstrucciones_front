@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useCallback } from "react";
 import { apiFetch } from "../utiles/api";
 
 export const QuoteContext = createContext();
@@ -7,19 +7,27 @@ export function QuoteProvider({ children }) {
   const [quotes, setQuotes] = useState([]);
   const [myQuotes, setMyQuotes] = useState([]);
 
-  async function fetchMyQuotes() {
+  const fetchMyQuotes = useCallback(async () => {
     const res = await apiFetch("/api/quotes/my");
-    const data = await res.json();
+    if (!res.ok) {
+      setMyQuotes([]);
+      return [];
+    }
+    const data = await res.json().catch(() => []);
     const list = Array.isArray(data) ? data : [];
     setMyQuotes(list);
     return list;
-  }
+  }, []);
 
-  async function fetchQuotes() {
+  const fetchQuotes = useCallback(async () => {
     const res = await apiFetch("/api/quotes");
-    const data = await res.json();
-    setQuotes(data);
-  }
+    if (!res.ok) {
+      setQuotes([]);
+      return;
+    }
+    const data = await res.json().catch(() => []);
+    setQuotes(Array.isArray(data) ? data : []);
+  }, []);
 
   async function createQuote(payload) {
     const res = await apiFetch("/api/quotes", {

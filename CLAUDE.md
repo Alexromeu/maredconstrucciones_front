@@ -15,11 +15,11 @@ There are no tests configured in this project.
 
 ## Architecture Overview
 
-This is a React 19 + Vite frontend for a construction company (Mared Construcciones). It talks to a separate backend REST API running at `http://localhost:3000`.
+This is a React 19 + Vite frontend for a construction company (Mared Construcciones). It talks to a separate backend REST API; the base URL comes from `VITE_API_URL` (see `.env`), with a hardcoded fallback to the production Render URL in `src/utiles/url_convert.jsx`.
 
-### URL Construction
+### API calls
 
-All API calls go through `src/utiles/url_convert.jsx`, which prepends the base URL (`http://localhost:3000`) to any endpoint path. Always use `convert_url("/api/...")` for fetch calls — never hardcode the full URL.
+Always route API calls through `apiFetch(endpoint, options)` in `src/utiles/api.jsx`. It prepends the base URL via `convert_url`, attaches `Authorization: Bearer <token>` when a token is present in `localStorage`, and on a 401 clears the token and dispatches an `auth:unauthorized` window event. Do not call `fetch()` directly for backend endpoints, and do not set `credentials: "include"` — auth is header-based, not cookie-based.
 
 ### Routing (App.jsx)
 
@@ -39,14 +39,14 @@ Note: some admin routes are declared both inside and outside the ProtectedRoute 
 All global state lives in React Context. `src/contexts/AppProviders.jsx` composes them in this nesting order (outermost → innermost):
 
 ```
-AuthProvider → CustomerProvider → ServiceProvider → QuoteProvider → OfferedServicesProvider
+AuthProvider → CustomerProvider → ServiceProvider → QuoteProvider
 ```
 
-Each context exports a named hook (`useAuth`, `useCustomer`, `useService`, etc.) — always use those hooks rather than importing the context object directly.
+Each context exports a named hook (`useAuth`, `useCustomer`, `useService`, `useQuote`) — always use those hooks rather than importing the context object directly. `fetchMyQuotes` / `fetchQuotes` / `fetchServices` / `updateService` are wrapped in `useCallback`, so they're safe to put in `useEffect` dependency arrays.
 
-**Auth** (`AuthContext`): JWT token stored in `sessionStorage` under key `"auth"` as a JSON object with a `token` field. `ProtectedRoute` checks `user.token` to gate admin pages.
+**Auth** (`AuthContext`): JWT stored as a raw string in `localStorage` under key `"token"` (managed via `getToken`/`setToken` in `src/utiles/api.jsx`). Login response shape is `{ id, email, name, role_id, token }`; the token is stripped off and stored separately, the rest becomes the `user` state. On app boot, if a token exists, `AuthProvider` calls `GET /auth/me` to rehydrate user state. `ProtectedRoute` checks `user` (not `user.token`) to gate admin/customer pages; when `apiFetch` sees a 401 it clears the token and emits `auth:unauthorized`, and `AuthProvider` listens for that event to null out `user` — which causes `ProtectedRoute` to redirect on the next render. This token-in-localStorage setup is a temporary workaround for mobile browsers blocking cross-site cookies; swap back to HttpOnly cookies once a shared parent domain is in place.
 
-**ServiceContext**: Caches services in memory — `fetchServices` is a no-op if `services.length > 0`. Call it on mount in any component that needs the service list.
+**ServiceContext**: Caches services in `state`. Callers invoke `fetchServices` on mount — it refetches every time (no short-circuit).
 
 ### Admin Section
 
@@ -54,18 +54,31 @@ Each context exports a named hook (`useAuth`, `useCustomer`, `useService`, etc.)
 
 ### API Endpoints (backend reference)
 
+Auth (unprotected unless noted):
 ```
-/api/customers          GET, POST
-/api/customers/:id      GET, PATCH, DELETE
-/api/services           GET, POST
-/api/services/:id       GET, PATCH, DELETE
-/api/quotes             GET, POST
-/api/quotes/:id         GET, PATCH, DELETE
-/api/quotes/:id/offered-services   GET, POST
-/api/offered-services/:id          PATCH, DELETE
-/api/auth/login         POST
-/api/auth/logout        POST
-/api/auth/me            GET
+POST /auth/register
+POST /auth/login                      → { id, email, name, role_id, token }
+POST /auth/logout                     (stateless no-op)
+POST /auth/resend-verification
+GET  /auth/verify-email/:token
+GET  /auth/me                         (protected)
+POST /auth/admin/create-user          (protected, admin only)
 ```
 
-Bearer token authentication is required for protected endpoints — read the token from `sessionStorage.getItem("auth")` and parse it to get `.token`.
+Resources:
+```
+/api/customers          GET, POST             (protected, admin/employee)
+/api/customers/:id      GET, PATCH, DELETE    (protected)
+/api/services           GET (public), POST    (protected)
+/api/services/:id       GET, PATCH, DELETE    (protected for writes)
+/api/quotes             GET, POST             (protected)
+/api/quotes/my          GET                   (protected, current user)
+/api/quotes/:id         GET, PATCH, DELETE    (protected, ownership-checked for role 3)
+/api/quotes/:quoteId/items  GET, POST         (protected, ownership-checked for role 3)
+/api/quote-items/:id    PATCH (admin), DELETE (ownership-checked for role 3)
+/api/contact            POST                  (public, rate-limited)
+```
+
+`/auth/register` creates rows in both `users` and `customers` in a single transaction — the frontend should only hit that endpoint (not POST `/api/customers`) for public sign-up.
+
+Protected endpoints require `Authorization: Bearer <token>`. `apiFetch` handles this automatically — read the raw token with `getToken()` from `src/utiles/api.jsx` only if you need it outside a fetch call.
